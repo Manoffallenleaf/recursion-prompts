@@ -7,31 +7,98 @@
 // Example: 5! = 5 x 4 x 3 x 2 x 1 = 120
 // factorial(5); // 120
 var factorial = function(n) {
+  if (n === 1 || n === 0) {
+    return 1;
+  }
+  if (n < 0) {
+    return null;
+  }
+    var result = n * factorial(n-1);
+    return result;
 };
 
 // 2. Compute the sum of an array of integers.
 // sum([1,2,3,4,5,6]); // 21
 var sum = function(array) {
+
+  if (array.length < 1) {
+    return 0;
+  }
+ var shifted = array[0];
+ var newArr = array.slice(1);
+ return sum(newArr) + shifted;
 };
 
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
+  if (array.length <= 0) {
+    return 0;
+  }
+  var joinedArray = array.join();
+  var splitArray = joinedArray.split(',');
+  var numArray = [];
+
+  for (var i = 0; i < splitArray.length; i++) {
+    var num = Number(splitArray[i]);
+    numArray.push(num);
+  }
+  var first = numArray.slice(0, numArray.length-1);
+  return arraySum(first) + numArray[numArray.length-1];
 };
 
 // 4. Check if a number is even.
 var isEven = function(n) {
+  n = Math.abs(n)
+  if (n === 0) {
+    return true;
+  }
+  if (n === 1) {
+    return false;
+  }
+  return isEven(n-2)
 };
 
 // 5. Sum all integers below a given integer.
 // sumBelow(10); // 45
 // sumBelow(7); // 21
 var sumBelow = function(n) {
+  if (n < 0) {
+    if (n === -1 || n === 0) {
+      return 0
+    }
+    return sumBelow(n+1) + (n+1)
+  } else {
+    if (n === 0 || n === 1) {
+      return 0
+    }
+    return sumBelow(n-1) + (n-1)
+  }
 };
 
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
 var range = function(x, y) {
+  if (x === y) {
+    return [];
+  }
+  if (x < y) {
+    if (x === y-1) {
+      return [];
+    }
+  result = range(x,y-1)
+  result.push(y-1)
+  return result
+  }
+  if (x > y) {
+    if (x-1 === y) {
+      return [];
+    }
+    result = range(x, y+1);
+    result.push(y+1);
+    return result;
+  }
+
 };
 
 // 7. Compute the exponent of a number.
@@ -40,6 +107,17 @@ var range = function(x, y) {
 // exponent(4,3); // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 var exponent = function(base, exp) {
+  if (exp === 0) {
+    return 1;
+  }
+  if (exp > 0) {
+    var result = base * exponent(base, exp-1)
+    return result
+  }
+  if (exp < 0) {
+    var result =  1/base / exponent(1/base, exp+1);
+    return result;
+  }
 };
 
 // 8. Determine if a number is a power of two.
@@ -47,14 +125,22 @@ var exponent = function(base, exp) {
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
 var powerOfTwo = function(n) {
+
 };
 
 // 9. Write a function that reverses a string.
 var reverse = function(string) {
+  if (string.length === 0) {
+    return ''
+  }
+  var result = reverse(string.slice(1))
+  result += string[0]
+  return result;
 };
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
+
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
@@ -63,11 +149,30 @@ var palindrome = function(string) {
 // modulo(17,5) // 2
 // modulo(22,6) // 4
 var modulo = function(x, y) {
+  if (y === 0) {
+    return NaN
+  }
+
+  if (x < 0) {
+    return -modulo (-x, y)
+  }
+
+  if ( y < 0) {
+    return modulo(x, -y)
+  }
+
+  if (y > x) {
+    return x;
+  }
+
+  var result = x - y;
+  return modulo(result, y);
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator or
 // Math methods.
 var multiply = function(x, y) {
+
 };
 
 // 13. Write a function that divides two numbers without using the / operator or
@@ -97,12 +202,27 @@ var createArray = function(str) {
 
 // 17. Reverse the order of an array
 var reverseArr = function(array) {
+  if(array.length === 0) {
+    return []
+  }
+  var first = array[0];
+  var newArray = array.slice (1, array.length);
+  var result = reverseArr(newArray);
+  result.push(first);
+  return result;
 };
 
 // 18. Create a new array with a given value and length.
 // buildList(0,5) // [0,0,0,0,0]
 // buildList(7,3) // [7,7,7]
 var buildList = function(value, length) {
+  if (length === 0) {
+    return [];
+  }
+  var result = buildList(value, length -1);
+  result.push(value);
+  return result
+
 };
 
 // 19. Implement FizzBuzz. Given integer n, return an array of the string representations of 1 to n.
